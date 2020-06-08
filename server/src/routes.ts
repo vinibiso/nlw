@@ -11,13 +11,17 @@ import UsersController from './controllers/UsersController'
 const routes = express.Router();
 const upload = multer(multerConfig);
 
+// Controllers
 const pointsController = new PointsController();
 const itemsController = new ItemsController();
 const usersController = new UsersController();
 
+// Items
 routes.get('/items', itemsController.index);
+
+// Points
 routes.post(
-  '/points', 
+  '/points',
   upload.single('image'),
   celebrate({
     body: Joi.object().keys({
@@ -38,6 +42,7 @@ routes.post(
 routes.get('/points', pointsController.index);
 routes.get('/points/:id', pointsController.show);
 
+// Auth
 routes.post('/register', usersController.create);
 routes.post('/authenticate', usersController.authenticate);
 
