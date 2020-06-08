@@ -6,12 +6,14 @@ import multerConfig from './config/multer';
 
 import PointsController from './controllers/PointsController'
 import ItemsController from './controllers/ItemsController'
+import UsersController from './controllers/UsersController'
 
 const routes = express.Router();
 const upload = multer(multerConfig);
 
 const pointsController = new PointsController();
 const itemsController = new ItemsController();
+const usersController = new UsersController();
 
 routes.get('/items', itemsController.index);
 routes.post(
@@ -35,5 +37,7 @@ routes.post(
 );
 routes.get('/points', pointsController.index);
 routes.get('/points/:id', pointsController.show);
+
+routes.post('/register', usersController.create);
 
 export default routes;
