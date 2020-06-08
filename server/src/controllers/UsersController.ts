@@ -7,6 +7,13 @@ class UsersController {
   async create(request: Request, response: Response) {
     const { email, password } = request.body;
 
+    const userFound = await knex('users').where('email', email);
+    console.log(userFound);
+
+    if(userFound.length > 0) {
+      return response.status(400).json({ message: 'User already registered'})
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log(hashedPassword);
 
