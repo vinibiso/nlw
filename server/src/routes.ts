@@ -4,9 +4,9 @@ import { celebrate, Joi } from 'celebrate';
 import multer from 'multer';
 import multerConfig from './config/multer';
 
-import PointsController from './controllers/PointsController'
-import ItemsController from './controllers/ItemsController'
-import UsersController from './controllers/UsersController'
+import PointsController from './controllers/PointsController';
+import ItemsController from './controllers/ItemsController';
+import UsersController from './controllers/UsersController';
 
 const routes = express.Router();
 const upload = multer(multerConfig);
@@ -33,11 +33,11 @@ routes.post(
       city: Joi.string().required(),
       uf: Joi.string().required().max(2),
       items: Joi.string().required(),
-    })
+    }),
   }, {
-    abortEarly: false
+    abortEarly: false,
   }),
-  pointsController.create
+  pointsController.create,
 );
 routes.get('/points', pointsController.index);
 routes.get('/points/:id', pointsController.show);

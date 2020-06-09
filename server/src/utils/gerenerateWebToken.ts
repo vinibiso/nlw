@@ -7,6 +7,6 @@ const generateWebToken = (userInfo: Object) => {
   });
 
   return token;
-}
+};
 
 export default generateWebToken;
