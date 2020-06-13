@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import prisma from '../connection';
 import knex from '../database/connection';
 
 class PointsController {
@@ -30,7 +31,13 @@ class PointsController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const point = await knex('points').where('id', id).first();
+    const point = await prisma.points.findOne({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    console.log(point);
 
     if (!point) {
       return response.status(400).json({ message: 'Point not found' });

@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../connection';
 
 import generateWebToken from '../utils/gerenerateWebToken';
 
 class UsersController {
   async create(request: Request, response: Response) {
     const { email, password } = request.body;
-
-    const prisma = new PrismaClient();
 
     const userFound = await prisma.users.findOne({
       where: {
@@ -17,7 +15,7 @@ class UsersController {
     });
 
     if (userFound) {
-      return response.status(400).json({ message: 'User already registered'})
+      return response.status(400).json({ message: 'User already registered' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,8 +35,6 @@ class UsersController {
 
   async authenticate(request: Request, response: Response) {
     const { email, password } = request.body;
-
-    const prisma = new PrismaClient();
 
     const user = await prisma.users.findOne({
       where: {
