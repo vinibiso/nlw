@@ -7,7 +7,7 @@ datasource db {
   url      = "file:database.sqlite"
 }
 
-model points {
+model Point {
   city        String
   email       String
   id          Int           @default(autoincrement()) @id
@@ -17,25 +17,17 @@ model points {
   name        String
   uf          String
   whatsapp    String
-  point_items point_items[]
+  items       Item[]        @relation(references: [id])
 }
 
-model items {
+model Item {
   id          Int           @default(autoincrement()) @id
   image       String
   title       String
-  point_items point_items[]
+  points Point[]       @relation(references: [id])
 }
 
-model point_items {
-  id       Int    @default(autoincrement()) @id
-  item_id  Int
-  point_id Int
-  items    items  @relation(fields: [item_id], references: [id])
-  points   points @relation(fields: [point_id], references: [id])
-}
-
-model users {
+model User {
   email    String @unique
   id       Int    @default(autoincrement()) @id
   password String

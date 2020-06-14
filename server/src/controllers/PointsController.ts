@@ -68,38 +68,34 @@ class PointsController {
       items,
     } = request.body;
 
-    const point = {
-      image: request.file.filename,
-      name,
-      email,
-      whatsapp,
-      latitude,
-      longitude,
-      city,
-      uf,
-    };
-
-    const trx = await knex.transaction();
-
-    const insertedIds = await trx('points').insert(point);
-
-    const pointId = insertedIds[0];
-
     const pointItems = items
       .split(',')
       .map((item: string) => Number(item.trim()))
       .map((itemId: number) => {
         return {
-          itemId,
-          pointId,
+          id: itemId,
         };
       });
 
-    await trx('point_items').insert(pointItems);
+    const point = {
+      image: request.file.filename,
+      name,
+      email,
+      whatsapp: String(whatsapp),
+      latitude,
+      longitude,
+      city,
+      uf,
+      point_items: {
+        connect: pointItems,
+      },
+    };
 
-    await trx.commit();
+    const insertedPoint = await prisma.points.create({
+      data: point,
+    });
 
-    return response.json({ ...point, pointId });
+    return response.json(insertedPoint);
   }
 }
 
