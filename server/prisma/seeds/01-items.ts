@@ -11,7 +11,7 @@ const seed = async () => {
   ];
 
   items.forEach(async (item) => {
-    await prisma.items.create({
+    await prisma.item.create({
       data: item,
     });
   });
