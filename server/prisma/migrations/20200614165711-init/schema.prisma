@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = "***"
+}
+
+model Point {
+  city        String
+  email       String
+  id          Int           @default(autoincrement()) @id
+  image       String
+  latitude    Float
+  longitude   Float
+  name        String
+  uf          String
+  whatsapp    String
+  items       Item[]        @relation(references: [id])
+}
+
+model Item {
+  id          Int           @default(autoincrement()) @id
+  image       String
+  title       String
+  points Point[]       @relation(references: [id])
+}
+
+model User {
+  email    String @unique
+  id       Int    @default(autoincrement()) @id
+  password String
+}
