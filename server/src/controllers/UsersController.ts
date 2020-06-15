@@ -8,7 +8,7 @@ class UsersController {
   async create(request: Request, response: Response) {
     const { email, password } = request.body;
 
-    const userFound = await prisma.users.findOne({
+    const userFound = await prisma.user.findOne({
       where: {
         email,
       },
@@ -25,7 +25,7 @@ class UsersController {
       password: hashedPassword,
     };
 
-    const insertedUser = await prisma.users.create({ data: user });
+    const insertedUser = await prisma.user.create({ data: user });
     delete insertedUser.password;
 
     const token = generateWebToken({ id: insertedUser.id });
@@ -36,7 +36,7 @@ class UsersController {
   async authenticate(request: Request, response: Response) {
     const { email, password } = request.body;
 
-    const user = await prisma.users.findOne({
+    const user = await prisma.user.findOne({
       where: {
         email,
       },
