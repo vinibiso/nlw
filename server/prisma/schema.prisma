@@ -24,11 +24,11 @@ model Item {
   id          Int           @default(autoincrement()) @id
   image       String
   title       String
-  points Point[]       @relation(references: [id])
+  points      Point[]       @relation(references: [id])
 }
 
 model User {
-  email    String @unique
-  id       Int    @default(autoincrement()) @id
-  password String
+  email       String @unique
+  id          Int    @default(autoincrement()) @id
+  password    String
 }
